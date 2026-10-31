@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자기소개서</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --navy: #233b56;
+  --ink: #26313d;
+  --line: #718096;
+  --line-soft: #aeb9c6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px 16px 35px;
+  background: #e9edf2;
+  color: var(--ink);
+  font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* 상단 도구 */
+.toolbar {
+  width: min(900px, 100%);
+  margin: 0 auto 14px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.toolbar button {
+  border: 1px solid #c7d0db;
+  border-radius: 6px;
+  padding: 9px 15px;
+  background: #fff;
+  color: var(--navy);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.toolbar button.primary {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: white;
+}
+
+.toolbar button:hover {
+  opacity: .85;
+}
+
+/* A4 용지 */
+.paper {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 13mm 14mm 11mm;
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(28,43,60,.12);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.paper::before {
+  content: "";
+  position: absolute;
+  inset: 7mm;
+  border: 1px solid #e7ebf0;
+  pointer-events: none;
+}
+
+/* 제목 */
+.header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 6mm;
+  flex-shrink: 0;
+}
+
+h1 {
+  margin: 0;
+  color: #182b40;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: 13px;
+  text-indent: 13px;
+}
+
+.header-bottom {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 8px;
+  padding-right: 2px;
+  color: #3d4c5d;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.job-input {
+  display: inline-block;
+  min-width: 125px;
+  padding: 0 4px 2px;
+  border-bottom: 1px solid #8996a5;
+  text-align: left;
+}
+
+/* 네 항목을 하나의 표처럼 빈틈없이 연결 */
+.sections {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  border: 1.2px solid var(--line);
+}
+
+/* 각 항목 */
+.section {
+  display: grid;
+  grid-template-columns: 13mm minmax(0, 1fr);
+  border: 0;
+  border-bottom: 1.2px solid var(--line);
+  background: #fff;
+  flex: 1 1 auto;
+  min-height: 0;
+  break-inside: avoid;
+}
+
+.section:last-child {
+  border-bottom: 0;
+}
+
+/* 왼쪽 항목명 */
+.section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  padding: 10px 2px;
+  background: #f0f3f7;
+  border-right: 1px solid var(--line-soft);
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+/* 본문 */
+.section-content {
+  padding: 12px 16px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.section-content p {
+  margin: 0 0 7px;
+  line-height: 1.72;
+  font-size: 11.5px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.section-content p:last-child {
+  margin-bottom: 0;
+}
+
+.section-content .lead {
+  color: #233b56;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+/* 직접 수정 */
+[contenteditable="true"]:focus {
+  outline: 2px solid #d8e5f2;
+  background: #f8fbff;
+  border-radius: 2px;
+}
+
+/* 하단 서명 */
+.footer {
+  margin-top: 5mm;
+  padding-top: 2mm;
+  text-align: right;
+  position: relative;
+  color: #4d5967;
+  font-size: 11.5px;
+  flex-shrink: 0;
+}
+
+.confirmation {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.signature {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+}
+
+.signature span[contenteditable="true"] {
+  min-width: 0;
+  padding: 0 6px;
+  text-align: center;
+  border-bottom: 1px solid #aeb8c4;
+}
+
+/* 하단 안내 */
+.hint {
+  width: min(900px, 100%);
+  margin: 12px auto 0;
+  color: #687585;
+  font-size: 11px;
+  text-align: center;
+}
+
+/* 모바일 */
+@media(max-width:760px) {
+  body {
+    padding: 10px 0 24px;
+  }
+
+  .paper {
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    padding: 28px 18px;
+  }
+
+  .paper::before {
+    inset: 8px;
+  }
+
+  h1 {
+    font-size: 23px;
+    letter-spacing: 9px;
+  }
+
+  .sections {
+    flex: initial;
+  }
+
+  .section {
+    grid-template-columns: 34px minmax(0, 1fr);
+    flex: 0 0 auto;
+  }
+
+  .section-content {
+    padding: 11px;
+  }
+
+  .section-content p {
+    font-size: 11px;
+  }
+
+  .section-content .lead {
+    font-size: 12px;
+  }
+
+  .section-label {
+    font-size: 11px;
+  }
+
+  .footer {
+    margin-top: 18px;
+  }
+}
+
+/* A4 인쇄 */
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  .toolbar,
+  .hint {
+    display: none !important;
+  }
+
+  .paper {
+    width: 210mm;
+    height: 297mm;
+    min-height: 297mm;
+    margin: 0;
+    padding: 13mm 14mm 11mm;
+    box-shadow: none;
+    overflow: hidden;
+  }
+
+  .paper::before {
+    inset: 7mm;
+  }
+
+  .sections {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    border: 1.2px solid var(--line);
+  }
+
+  .section {
+    border: 0;
+    border-bottom: 1.2px solid var(--line);
+    flex: 1 1 auto;
+    break-inside: avoid;
+  }
+
+  .section:last-child {
+    border-bottom: 0;
+  }
+
+  .section-content p {
+    font-size: 10.5px;
+    line-height: 1.72;
+  }
+
+  .section-content .lead {
+    font-size: 12px;
+  }
+
+  .footer {
+    flex-shrink: 0;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 초기화 버튼 제거 -->
+<div class="toolbar">
+  <button class="primary" onclick="window.print()">인쇄 / PDF 저장</button>
+</div>
+
+<main class="paper">
+
+  <header class="header">
+    <h1>자 기 소 개 서</h1>
+
+    <div class="header-bottom">
+      희망 직무(부서) :
+      <span class="job-input" contenteditable="true">백엔드 개발자</span>
+    </div>
+  </header>
+
+  <div class="sections">
+
+    <!-- 1. 성장과정 -->
+    <section class="section">
+      <div class="section-label">성장과정</div>
+
+      <div class="section-content">
+
+        <p class="lead" contenteditable="true">
+          설계가 개발을 지탱한다는 것을 배우며 성장했습니다.
+        </p>
+
+        <p contenteditable="true">
+          처음 개발을 배울 때는 코드를 직접 작성해 기능을 구현하는 것이 개발의 핵심이라고 생각했습니다. 주어진 기능을 완성하는 데 집중했으며, 설계의 중요성에 대해서는 깊이 생각하지 못했습니다.
+        </p>
+
+        <p contenteditable="true">
+          이러한 생각은 학교에서 진행한 팀 프로젝트를 통해 달라졌습니다. 본격적인 개발에 앞서 팀원들과 충분히 의견을 나누고 서비스의 구조와 기능을 구체적으로 설계했습니다. 그 결과 개발 중 문제가 발생하거나 수정 사항이 생겨도 기존 설계를 바탕으로 방향을 잡고 유연하게 대응할 수 있었습니다.
+        </p>
+
+        <p contenteditable="true">
+          AI를 활용해 개발하면서 설계의 중요성을 더욱 실감했습니다. AI가 코드 작성과 구현을 도와주는 시대일수록 개발자에게는 무엇을 만들고 어떤 방식으로 구현할지 판단하는 능력이 중요하다고 생각합니다. 결국 AI를 효과적으로 활용하기 위해서도 개발자가 먼저 전체적인 구조와 방향을 이해하고 있어야 한다는 것을 깨달았습니다.
+        </p>
+
+        <p contenteditable="true">
+          또한 팀원들과 의견을 공유하고 진행 상황을 조율하면서 원활한 소통과 협업이 프로젝트의 완성도를 높인다는 점도 배웠습니다. 이러한 경험을 바탕으로 설계와 협업의 가치를 이해하고, AI를 효과적으로 활용해 더 나은 결과물을 만들어 내는 개발자로 성장하겠습니다.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- 2. 지원동기 -->
+    <section class="section">
+      <div class="section-label">지원동기</div>
+
+      <div class="section-content">
+
+        <p class="lead" contenteditable="true">
+           안정적인 데이터 처리로 서비스의 신뢰를 만드는 백엔드 개발자로 성장하고 싶습니다.        
+        </p>
+
+        <p contenteditable="true">
+          학교에서 진행했던 팀 프로젝트에서 음식점 검색 API를 연동하며, 사용자가 서비스를 원활하게 이용하기 위해서는 화면뿐 아니라 데이터가 정확하게 전달되고 처리되는 과정이 중요하다는 것을 경험했습니다. 이를 계기로 서비스의 기반을 구성하고 데이터를 안정적으로 처리하는 백엔드 개발에 관심을 갖게 되었습니다.
+        </p>
+
+        <p contenteditable="true">
+          A회사는 일상 속에서 많은 사용자가 꾸준히 이용하는 서비스를 운영하고 있습니다. 이러한 서비스일수록 사용자의 요청을 빠르고 정확하게 처리하는 안정적인 시스템이 중요하다고 생각합니다. A회사에서 실제 서비스의 구조와 운영 과정을 경험하며 문제의 원인을 구조적으로 분석하고 해결하는 역량을 키우고 싶습니다. 나아가 안정적인 서비스 환경을 만드는 데 기여하는 개발자가 되고자 지원했습니다.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- 3. 성격의 장단점 -->
+    <section class="section">
+      <div class="section-label">성격·장단점</div>
+
+      <div class="section-content">
+
+        <p class="lead" contenteditable="true">
+          맡은 일에 책임을 다하고, 함께하는 사람들과 협력합니다.
+        </p>
+
+        <p contenteditable="true">
+          저의 장점은 책임감과 협업 능력입니다. 맡은 일은 끝까지 완수하려는 태도를 중요하게 생각하며, 프로젝트에서도 각자의 역할을 충실히 수행하는 것이 좋은 결과물을 만드는 출발점이라고 생각합니다. 또한 다른 사람의 의견을 경청하고 서로의 생각을 조율하며 공동의 목표를 달성하기 위해 노력합니다.
+        </p>
+
+        <p contenteditable="true">
+          반면 다른 사람의 부탁을 쉽게 거절하지 못하는 점은 개선해야 할 부분입니다. 상대방을 배려하는 마음에 도움을 요청받으면 먼저 수락하는 경우가 많았고, 이로 인해 정작 제가 맡은 업무의 진행이 늦어지기도 했습니다.
+        </p>
+
+        <p contenteditable="true">
+          이를 개선하기 위해 현재는 요청받은 업무의 중요도와 우선순위를 먼저 판단하고, 기존 업무 일정을 고려해 도움을 줄 수 있는 범위를 조율하려고 노력하고 있습니다. 앞으로도 책임감과 협업 능력은 유지하면서 효율적으로 업무를 조율할 수 있는 개발자가 되겠습니다.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- 4. 입사 후 포부 -->
+    <section class="section">
+      <div class="section-label">입사후포부</div>
+
+      <div class="section-content">
+
+        <p class="lead" contenteditable="true">
+          끊임없이 도전하고, 결과로 회사에 기여하는 개발자가 되겠습니다.
+        </p>
+
+        <p contenteditable="true">
+          입사는 제게 단순히 새로운 직장을 얻는 것이 아니라, 개발자로서 역량을 증명하고 한 단계 더 성장할 수 있는 출발점이라고 생각합니다. 기회를 얻은 만큼 적극적인 자세로 업무에 임하고, 맡은 일에는 끝까지 책임을 다하겠습니다.
+        </p>
+
+        <p contenteditable="true">
+          입사 초기에는 회사의 서비스 구조와 개발 환경을 빠르게 파악하고, 부족한 기술과 지식은 스스로 학습하며 채워 나가겠습니다. 모르는 것을 두려워하기보다 끊임없이 질문하고 배우며, 작은 업무라도 소홀히 하지 않고 확실하게 완수하겠습니다.
+        </p>
+
+        <p contenteditable="true">
+          장기적으로는 주어진 기능을 구현하는 데 그치지 않고 서비스 전체를 이해하며, 문제를 먼저 발견하고 해결책을 제시할 수 있는 개발자로 성장하겠습니다. 또한 새로운 기술과 AI 도구를 적극적으로 활용하며 개발 역량을 끊임없이 발전시키겠습니다.
+        </p>
+
+        <p contenteditable="true">
+          회사의 성장에 실질적으로 기여하는 개발자가 되기 위해 끊임없이 배우고 도전하겠습니다. 이를 바탕으로 안정적인 서비스 운영에 기여하고, 회사와 함께 성장하는 개발자가 되겠습니다.
+        </p>
+
+      </div>
+    </section>
+
+  </div>
+
+  <footer class="footer">
+
+    <div class="confirmation">
+      위 사항들이 사실임을 확인합니다.
+    </div>
+
+    <div class="signature">
+      <span contenteditable="true">2026년&nbsp;&nbsp; 11월&nbsp;&nbsp; 1일</span>
+      <span>지원자</span>
+      <span contenteditable="true">체동해</span>
+      <span>(인)채동해</span>
+    </div>
+
+  </footer>
+
+</main>
+
+<div class="hint">
+  각 문장을 클릭하여 직접 수정할 수 있습니다. 인쇄 / PDF 저장을 누르면 A4 한 페이지로 출력됩니다.
+</div>
+
+</body>
+</html>
